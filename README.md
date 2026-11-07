@@ -1,46 +1,6 @@
 # SolidStackWeb
 
-[![CI](https://github.com/eclectic-coding/solid_stack_web/actions/workflows/ci.yml/badge.svg)](https://github.com/eclectic-coding/solid_stack_web/actions/workflows/ci.yml)
-[![Gem Version](https://img.shields.io/gem/v/solid_stack_web.svg)](https://rubygems.org/gems/solid_stack_web)
-[![Downloads](https://img.shields.io/gem/dt/solid_stack_web.svg)](https://rubygems.org/gems/solid_stack_web)
-[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-ruby)](https://www.ruby-lang.org)
-[![codecov](https://codecov.io/gh/eclectic-coding/solid_stack_web/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/solid_stack_web)
-
 A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, i18n locale switching, custom nav links, custom dashboard cards, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Screenshots](#screenshots)
-- [Metrics endpoint](#metrics-endpoint)
-- [General configuration](#general-configuration)
-  - [Authentication](#authentication)
-  - [Linking to the dashboard](#linking-to-the-dashboard)
-- [i18n](#i18n)
-  - [Adding a custom locale](#adding-a-custom-locale)
-- [Extensibility](#extensibility)
-  - [Custom nav links](#custom-nav-links)
-  - [Custom dashboard cards](#custom-dashboard-cards)
-- [Security](#security)
-  - [Authentication](#authentication-1)
-  - [Sensitive cache values](#sensitive-cache-values)
-  - [CSRF protection](#csrf-protection)
-  - [Rate limiting and network exposure](#rate-limiting-and-network-exposure)
-- [Solid Queue](#solid-queue)
-  - [Features](#features)
-  - [Configuration](#configuration)
-    - [Job Filtering](#job-filtering)
-- [Solid Cache](#solid-cache)
-  - [Features](#features-1)
-- [Solid Cable](#solid-cable)
-  - [Features](#features-2)
-- [Requirements](#requirements)
-- [Versioning](#versioning)
-  - [Public API](#public-api)
-  - [Not part of the public API](#not-part-of-the-public-api)
-  - [Deprecation policy](#deprecation-policy)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -66,15 +26,11 @@ rails generate solid_stack_web:install
 
 This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`. The dashboard will then be available at `/solid_stack` (or whatever path you choose).
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## Screenshots
 
 ![SolidStackWeb dashboard](docs/screenshots/demo.gif)
-
-[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -103,8 +59,6 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 ```
 
 `slow_jobs` is only present when `slow_job_threshold` is configured. The endpoint is protected by the same authentication as the rest of the dashboard.
-
-[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -147,8 +101,6 @@ The `authenticate` block is evaluated in the context of each request's controlle
 link_to "Queue Dashboard", SolidStackWeb.mount_path
 ```
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## i18n
@@ -178,8 +130,6 @@ config.available_locales = [:en, :es, :fr]
 ```
 
 Rails will pick up the file automatically via its standard `config.i18n.load_path`; no additional configuration is needed.
-
-[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -224,8 +174,6 @@ end
 
 The `stats` lambda runs on every dashboard render, so keep it fast. Defaults to `[]` — no custom cards appear when unconfigured.
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## Security
@@ -263,8 +211,6 @@ The dashboard is designed to be mounted behind your application's existing authe
 - Mounting at a non-guessable path (e.g. `at: "/ops/#{Rails.application.credentials.dashboard_token}"`)
 - Restricting access by IP at the reverse-proxy level
 - Applying [Rack::Attack](https://github.com/rack/rack-attack) rules to the mount path
-
-[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -344,8 +290,6 @@ The jobs list supports four independent filters, all driven by query params:
 
 Filters are preserved when switching between status tabs (Ready / Scheduled / Running / Blocked) and when discarding a job. They can be combined freely.
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## Solid Cache
@@ -362,8 +306,6 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - **Delete entry** — per-row delete button or detail-page button removes a single cache entry
 - **Flush All** — header button deletes every cache entry with a confirmation prompt
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## Solid Cable
@@ -376,8 +318,6 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover; supports `?q=` filtering by payload substring; **Purge Channel** button deletes all messages for the channel
 - **Message purge** — "Purge Old" form on the channel browser deletes all messages older than 1, 7, or 30 days; confirmation prompt before any destructive action
 
-[↑ Back to top](#table-of-contents)
-
 ---
 
 ## Requirements
@@ -389,8 +329,6 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - [solid_cable](https://github.com/rails/solid_cable) >= 1.0
 - [turbo-rails](https://github.com/hotwired/turbo-rails) >= 2.0
 - [importmap-rails](https://github.com/rails/importmap-rails) >= 1.2
-
-[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -421,23 +359,3 @@ The following are internal and may change in any release without notice:
 ### Deprecation policy
 
 When a public API item is renamed or removed, the old interface is deprecated in a **minor** release — it continues to work but issues an `ActiveSupport::Deprecation` warning pointing to the replacement. The old interface is removed in the next **major** release. The [UPGRADING.md](UPGRADING.md) file documents every breaking change and the migration steps.
-
-[↑ Back to top](#table-of-contents)
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, the check suite, and the pull request workflow.
-
-Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/eclectic-coding/solid_stack_web/issues).
-
-[↑ Back to top](#table-of-contents)
-
----
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-[↑ Back to top](#table-of-contents)
