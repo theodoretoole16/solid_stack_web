@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve `solid_stack_web`. Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/eclectic-coding/solid_stack_web/issues). For larger changes, open an issue first so we can agree on the approach.
+Thanks for helping improve `solid_stack_web`. Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/theodoretoole16/solid_stack_web/issues). For larger changes, open an issue first so we can agree on the approach.
 
 ## Development setup
 
